@@ -24,7 +24,7 @@ public class Customer {
 	private long id;
 	private String firstName;
 	private String lastName;
-	private int phone;
+	private String phone;
 	private String email;
 	private Map<Long, RestTable> tables = new HashMap<>();
 
@@ -32,7 +32,7 @@ public class Customer {
 
 	}
 
-	public Customer(String firstName, String lastName, int phone, String email) {
+	public Customer(String firstName, String lastName, String phone, String email) {
 
 		setFirstName(firstName);
 		setLastName(lastName);
@@ -74,11 +74,11 @@ public class Customer {
 
 	@Basic(optional = false)
 	@Column(nullable = false)
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
@@ -118,7 +118,7 @@ public class Customer {
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + phone;
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((tables == null) ? 0 : tables.hashCode());
 		return result;
 	}
@@ -149,7 +149,10 @@ public class Customer {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (phone != other.phone)
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
 			return false;
 		if (tables == null) {
 			if (other.tables != null)
@@ -159,4 +162,5 @@ public class Customer {
 		return true;
 	}
 
+	
 }

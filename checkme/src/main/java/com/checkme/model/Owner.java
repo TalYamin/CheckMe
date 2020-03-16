@@ -22,7 +22,7 @@ public class Owner {
 	private long id;
 	private String firstName;
 	private String lastName;
-	private int phone;
+	private String phone;
 	private String email;
 	private Set<Restaurant>restaurants = new HashSet<Restaurant>();
 	
@@ -31,7 +31,7 @@ public class Owner {
 
 	}
 
-	public Owner(String firstName, String lastName, int phone, String email) {
+	public Owner(String firstName, String lastName, String phone, String email) {
 
 		setFirstName(firstName);
 		setLastName(lastName);
@@ -73,11 +73,11 @@ public class Owner {
 
 	@Basic(optional = false)
 	@Column(nullable = false)
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
@@ -114,7 +114,7 @@ public class Owner {
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + phone;
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((restaurants == null) ? 0 : restaurants.hashCode());
 		return result;
 	}
@@ -145,7 +145,10 @@ public class Owner {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (phone != other.phone)
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
 			return false;
 		if (restaurants == null) {
 			if (other.restaurants != null)
@@ -154,6 +157,8 @@ public class Owner {
 			return false;
 		return true;
 	}
+
+	
 
 	
 

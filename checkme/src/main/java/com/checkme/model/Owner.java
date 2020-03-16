@@ -1,10 +1,15 @@
 package com.checkme.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
@@ -19,7 +24,9 @@ public class Owner {
 	private String lastName;
 	private int phone;
 	private String email;
-
+	private Set<Restaurant>restaurants = new HashSet<Restaurant>();
+	
+	
 	public Owner() {
 
 	}
@@ -84,6 +91,15 @@ public class Owner {
 		this.email = email;
 	}
 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
+	public Set<Restaurant> getRestaurants() {
+		return restaurants;
+	}
+
+	public void setRestaurants(Set<Restaurant> restaurants) {
+		this.restaurants = restaurants;
+	}
+	
 	@Override
 	public String toString() {
 		return "Owner [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
@@ -99,6 +115,7 @@ public class Owner {
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + phone;
+		result = prime * result + ((restaurants == null) ? 0 : restaurants.hashCode());
 		return result;
 	}
 
@@ -130,7 +147,16 @@ public class Owner {
 			return false;
 		if (phone != other.phone)
 			return false;
+		if (restaurants == null) {
+			if (other.restaurants != null)
+				return false;
+		} else if (!restaurants.equals(other.restaurants))
+			return false;
 		return true;
 	}
+
+	
+
+	
 
 }

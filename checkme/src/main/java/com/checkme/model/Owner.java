@@ -12,27 +12,31 @@ import lombok.NonNull;
 
 @Component
 @Entity
-public class Customer {
-	
+public class Owner {
+
 	private @NonNull long id;
 	private @NonNull String firstName;
 	private @NonNull String lastName;
 	private @NonNull int phone;
 	private @NonNull String email;
 	
-	
-	public Customer() {
-	
+
+	public Owner() {
+		
 	}
+	
+	
 
-	public Customer(@NonNull String firstName, @NonNull String lastName, @NonNull int phone,
+	public Owner(@NonNull String firstName, @NonNull String lastName, @NonNull int phone,
 			@NonNull String email) {
-
+	
 		setFirstName(firstName);
 		setLastName(lastName);
 		setPhone(phone);
 		setEmail(email);
 	}
+
+
 
 	@Id
 	@GeneratedValue
@@ -86,11 +90,15 @@ public class Customer {
 		this.email = email;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
+		return "Owner [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
 				+ ", email=" + email + "]";
 	}
+
+
 
 	@Override
 	public int hashCode() {
@@ -104,6 +112,8 @@ public class Customer {
 		return result;
 	}
 
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -112,7 +122,7 @@ public class Customer {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Customer other = (Customer) obj;
+		Owner other = (Owner) obj;
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -134,9 +144,8 @@ public class Customer {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
 
+	
+	
+	
 }

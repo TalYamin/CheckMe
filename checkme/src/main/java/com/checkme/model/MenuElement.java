@@ -118,6 +118,59 @@ public class MenuElement {
 		return "MenuElement [id=" + this.id + ", name=" + this.name + ", menuType=" + this.menuType + ", price=" + this.price
 				+ ", updateDate=" + this.customeDate + ", active=" + this.active + " ]";
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (active ? 1231 : 1237);
+		result = prime * result + ((customeDate == null) ? 0 : customeDate.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((menuType == null) ? 0 : menuType.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + price;
+		result = prime * result + ((updateDate == null) ? 0 : updateDate.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MenuElement other = (MenuElement) obj;
+		if (active != other.active)
+			return false;
+		if (customeDate == null) {
+			if (other.customeDate != null)
+				return false;
+		} else if (!customeDate.equals(other.customeDate))
+			return false;
+		if (id != other.id)
+			return false;
+		if (menuType != other.menuType)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (price != other.price)
+			return false;
+		if (updateDate == null) {
+			if (other.updateDate != null)
+				return false;
+		} else if (!updateDate.equals(other.updateDate))
+			return false;
+		return true;
+	}
+	
+	
 	
 	
 	

@@ -14,29 +14,23 @@ import lombok.NonNull;
 @Entity
 public class Owner {
 
-	private @NonNull long id;
-	private @NonNull String firstName;
-	private @NonNull String lastName;
-	private @NonNull int phone;
-	private @NonNull String email;
-	
+	private long id;
+	private String firstName;
+	private String lastName;
+	private int phone;
+	private String email;
 
 	public Owner() {
-		
-	}
-	
-	
 
-	public Owner(@NonNull String firstName, @NonNull String lastName, @NonNull int phone,
-			@NonNull String email) {
-	
+	}
+
+	public Owner(String firstName, String lastName, int phone, String email) {
+
 		setFirstName(firstName);
 		setLastName(lastName);
 		setPhone(phone);
 		setEmail(email);
 	}
-
-
 
 	@Id
 	@GeneratedValue
@@ -79,7 +73,7 @@ public class Owner {
 	public void setPhone(int phone) {
 		this.phone = phone;
 	}
-	
+
 	@Basic(optional = false)
 	@Column(nullable = false)
 	public String getEmail() {
@@ -90,15 +84,11 @@ public class Owner {
 		this.email = email;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Owner [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
 				+ ", email=" + email + "]";
 	}
-
-
 
 	@Override
 	public int hashCode() {
@@ -111,8 +101,6 @@ public class Owner {
 		result = prime * result + phone;
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -145,7 +133,4 @@ public class Owner {
 		return true;
 	}
 
-	
-	
-	
 }

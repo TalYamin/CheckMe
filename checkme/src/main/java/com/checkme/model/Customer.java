@@ -1,32 +1,38 @@
 package com.checkme.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
 
 import org.springframework.stereotype.Component;
-
-import lombok.NonNull;
 
 @Component
 @Entity
 public class Customer {
-	
-	private @NonNull long id;
-	private @NonNull String firstName;
-	private @NonNull String lastName;
-	private @NonNull int phone;
-	private @NonNull String email;
-	
-	
+
+	private long id;
+	private String firstName;
+	private String lastName;
+	private int phone;
+	private String email;
+	private Map<Long, RestTable> tables = new HashMap<>();
+
 	public Customer() {
-	
+
 	}
 
-	public Customer(@NonNull String firstName, @NonNull String lastName, @NonNull int phone,
-			@NonNull String email) {
+	public Customer(String firstName, String lastName, int phone, String email) {
 
 		setFirstName(firstName);
 		setLastName(lastName);
@@ -75,7 +81,7 @@ public class Customer {
 	public void setPhone(int phone) {
 		this.phone = phone;
 	}
-	
+
 	@Basic(optional = false)
 	@Column(nullable = false)
 	public String getEmail() {
@@ -84,6 +90,18 @@ public class Customer {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@MapKey(name = "id")
+	@JoinTable(name = "Customer_Table", joinColumns = { @JoinColumn(name = "customer_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "table_id") })
+	public Map<Long, RestTable> getTables() {
+		return tables;
+	}
+
+	public void setTables(Map<Long, RestTable> tables) {
+		this.tables = tables;
 	}
 
 	@Override
@@ -101,6 +119,7 @@ public class Customer {
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + phone;
+		result = prime * result + ((tables == null) ? 0 : tables.hashCode());
 		return result;
 	}
 
@@ -132,11 +151,12 @@ public class Customer {
 			return false;
 		if (phone != other.phone)
 			return false;
+		if (tables == null) {
+			if (other.tables != null)
+				return false;
+		} else if (!tables.equals(other.tables))
+			return false;
 		return true;
 	}
-	
-	
-	
-	
 
 }

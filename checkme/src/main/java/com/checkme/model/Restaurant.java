@@ -1,10 +1,15 @@
 package com.checkme.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
@@ -13,25 +18,22 @@ import lombok.NonNull;
 @Component
 @Entity
 public class Restaurant {
-	
-	private @NonNull long id;
-	private @NonNull String name;
-	private @NonNull int phone;
-	private @NonNull String email;
-	
-	
+
+	private long id;
+	private String name;
+	private int phone;
+	private String email;
+	private Set<RestTable> tables = new HashSet<RestTable>();
+
 	public Restaurant() {
-		
+
 	}
 
-	
-	public Restaurant(@NonNull String name, @NonNull int phone, @NonNull String email) {
+	public Restaurant(String name, int phone, String email) {
 		setName(name);
 		setPhone(phone);
 		setEmail(email);
 	}
-
-
 
 	@Id
 	@GeneratedValue
@@ -40,7 +42,6 @@ public class Restaurant {
 	public long getId() {
 		return id;
 	}
-
 
 	public void setId(long id) {
 		this.id = id;
@@ -52,7 +53,6 @@ public class Restaurant {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -62,7 +62,6 @@ public class Restaurant {
 	public int getPhone() {
 		return phone;
 	}
-
 
 	public void setPhone(int phone) {
 		this.phone = phone;
@@ -74,17 +73,23 @@ public class Restaurant {
 		return email;
 	}
 
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+	public Set<RestTable> getTables() {
+		return tables;
+	}
+
+	public void setTables(Set<RestTable> tables) {
+		this.tables = tables;
+	}
 
 	@Override
 	public String toString() {
 		return "Restaurant [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + "]";
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -94,9 +99,9 @@ public class Restaurant {
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + phone;
+		result = prime * result + ((tables == null) ? 0 : tables.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -121,14 +126,12 @@ public class Restaurant {
 			return false;
 		if (phone != other.phone)
 			return false;
+		if (tables == null) {
+			if (other.tables != null)
+				return false;
+		} else if (!tables.equals(other.tables))
+			return false;
 		return true;
 	}
-
-	
-	
-	
-
-
-	
 
 }

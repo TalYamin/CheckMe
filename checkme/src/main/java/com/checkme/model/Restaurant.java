@@ -24,8 +24,9 @@ public class Restaurant {
 	private String name;
 	private int phone;
 	private String email;
-	private Set<RestTable> tables = new HashSet<RestTable>();
 	private Owner owner;
+	private Set<RestTable> tables = new HashSet<RestTable>();
+	private Set<MenuElement>menuElements = new HashSet<MenuElement>();
 
 	public Restaurant() {
 
@@ -78,6 +79,16 @@ public class Restaurant {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+
+	@ManyToOne
+	public Owner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Owner owner) {
+		this.owner = owner;
+	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
 	public Set<RestTable> getTables() {
@@ -88,14 +99,13 @@ public class Restaurant {
 		this.tables = tables;
 	}
 	
-	
-	@ManyToOne
-	public Owner getOwner() {
-		return owner;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+	public Set<MenuElement> getMenuElements() {
+		return menuElements;
 	}
 
-	public void setOwner(Owner owner) {
-		this.owner = owner;
+	public void setMenuElements(Set<MenuElement> menuElements) {
+		this.menuElements = menuElements;
 	}
 
 	@Override
@@ -109,6 +119,7 @@ public class Restaurant {
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((menuElements == null) ? 0 : menuElements.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
 		result = prime * result + phone;
@@ -132,6 +143,11 @@ public class Restaurant {
 			return false;
 		if (id != other.id)
 			return false;
+		if (menuElements == null) {
+			if (other.menuElements != null)
+				return false;
+		} else if (!menuElements.equals(other.menuElements))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -151,6 +167,10 @@ public class Restaurant {
 			return false;
 		return true;
 	}
+	
+	
+
+
 
 	
 

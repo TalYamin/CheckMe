@@ -9,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
@@ -21,30 +22,29 @@ import lombok.NonNull;
 @Entity
 public class MenuElement {
 
-	private @NonNull long id;
-	private @NonNull String name;
-	private @NonNull MenuType menuType;
-	private @NonNull int price;
-	private @NonNull LocalDate updateDate;
-	private @NonNull boolean active;
+	private long id;
+	private String name;
+	private MenuType menuType;
+	private int price;
+	private LocalDate updateDate;
+	private boolean active;
+	private Restaurant restaurant;
 	
 	@Transient
 	private String customeDate;
-	
+
 	public MenuElement() {
-		
+
 	}
 
-	
-	public MenuElement(@NonNull String name, @NonNull MenuType menuType, @NonNull int price,
-			@NonNull String updateDate) {
-		
+	public MenuElement(String name, MenuType menuType, int price, String updateDate) {
+
 		setName(name);
 		setMenuType(menuType);
 		setPrice(price);
 		setUpdateDate(DateConverterUtil.convertStringDate(updateDate));
 	}
-	
+
 	@Id
 	@GeneratedValue
 	@Basic(optional = false)
@@ -52,48 +52,48 @@ public class MenuElement {
 	public long getId() {
 		return id;
 	}
-	
+
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	@Basic(optional = false)
 	@Column(nullable = false)
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@Basic(optional = false)
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	public MenuType getMenuType() {
 		return menuType;
 	}
-	
+
 	public void setMenuType(MenuType menuType) {
 		this.menuType = menuType;
 	}
-	
+
 	@Basic(optional = false)
 	@Column(nullable = false)
 	public int getPrice() {
 		return price;
 	}
-	
+
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	
+
 	@Basic(optional = false)
 	@Column(nullable = false)
 	public LocalDate getUpdateDate() {
 		return updateDate;
 	}
-	
+
 	public void setUpdateDate(LocalDate updateDate) {
 		this.updateDate = updateDate;
 	}
@@ -107,18 +107,24 @@ public class MenuElement {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	
+	@ManyToOne
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
 
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
 
 	@Override
 	public String toString() {
-		
+
 		customeDate = DateConverterUtil.DateStringFormat(this.updateDate);
 
-		
-		return "MenuElement [id=" + this.id + ", name=" + this.name + ", menuType=" + this.menuType + ", price=" + this.price
-				+ ", updateDate=" + this.customeDate + ", active=" + this.active + " ]";
+		return "MenuElement [id=" + this.id + ", name=" + this.name + ", menuType=" + this.menuType + ", price="
+				+ this.price + ", updateDate=" + this.customeDate + ", active=" + this.active + " ]";
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -130,10 +136,10 @@ public class MenuElement {
 		result = prime * result + ((menuType == null) ? 0 : menuType.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + price;
+		result = prime * result + ((restaurant == null) ? 0 : restaurant.hashCode());
 		result = prime * result + ((updateDate == null) ? 0 : updateDate.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -162,6 +168,11 @@ public class MenuElement {
 			return false;
 		if (price != other.price)
 			return false;
+		if (restaurant == null) {
+			if (other.restaurant != null)
+				return false;
+		} else if (!restaurant.equals(other.restaurant))
+			return false;
 		if (updateDate == null) {
 			if (other.updateDate != null)
 				return false;
@@ -169,10 +180,7 @@ public class MenuElement {
 			return false;
 		return true;
 	}
+
 	
-	
-	
-	
-	
-	
+
 }

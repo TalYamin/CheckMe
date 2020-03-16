@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
@@ -24,6 +25,7 @@ public class Restaurant {
 	private int phone;
 	private String email;
 	private Set<RestTable> tables = new HashSet<RestTable>();
+	private Owner owner;
 
 	public Restaurant() {
 
@@ -85,6 +87,16 @@ public class Restaurant {
 	public void setTables(Set<RestTable> tables) {
 		this.tables = tables;
 	}
+	
+	
+	@ManyToOne
+	public Owner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Owner owner) {
+		this.owner = owner;
+	}
 
 	@Override
 	public String toString() {
@@ -98,6 +110,7 @@ public class Restaurant {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
 		result = prime * result + phone;
 		result = prime * result + ((tables == null) ? 0 : tables.hashCode());
 		return result;
@@ -124,6 +137,11 @@ public class Restaurant {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (owner == null) {
+			if (other.owner != null)
+				return false;
+		} else if (!owner.equals(other.owner))
+			return false;
 		if (phone != other.phone)
 			return false;
 		if (tables == null) {
@@ -133,5 +151,7 @@ public class Restaurant {
 			return false;
 		return true;
 	}
+
+	
 
 }

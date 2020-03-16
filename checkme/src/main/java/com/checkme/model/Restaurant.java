@@ -22,7 +22,7 @@ public class Restaurant {
 
 	private long id;
 	private String name;
-	private int phone;
+	private String phone;
 	private String email;
 	private Owner owner;
 	private Set<RestTable> tables = new HashSet<RestTable>();
@@ -32,10 +32,11 @@ public class Restaurant {
 
 	}
 
-	public Restaurant(String name, int phone, String email) {
+	public Restaurant(String name, String phone, String email, Owner owner) {
 		setName(name);
 		setPhone(phone);
 		setEmail(email);
+		setOwner(owner);
 	}
 
 	@Id
@@ -62,11 +63,11 @@ public class Restaurant {
 
 	@Basic(optional = false)
 	@Column(nullable = false)
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
@@ -122,7 +123,7 @@ public class Restaurant {
 		result = prime * result + ((menuElements == null) ? 0 : menuElements.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
-		result = prime * result + phone;
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((tables == null) ? 0 : tables.hashCode());
 		return result;
 	}
@@ -158,7 +159,10 @@ public class Restaurant {
 				return false;
 		} else if (!owner.equals(other.owner))
 			return false;
-		if (phone != other.phone)
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
 			return false;
 		if (tables == null) {
 			if (other.tables != null)
@@ -167,6 +171,8 @@ public class Restaurant {
 			return false;
 		return true;
 	}
+
+	
 	
 	
 

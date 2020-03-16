@@ -37,12 +37,14 @@ public class MenuElement {
 
 	}
 
-	public MenuElement(String name, MenuType menuType, int price, String updateDate) {
+	public MenuElement(String name, MenuType menuType, int price, String updateDate, Restaurant restaurant) {
 
 		setName(name);
 		setMenuType(menuType);
 		setPrice(price);
 		setUpdateDate(DateConverterUtil.convertStringDate(updateDate));
+		setRestaurant(restaurant);
+		
 	}
 
 	@Id

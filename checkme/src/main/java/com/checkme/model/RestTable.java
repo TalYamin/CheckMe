@@ -26,6 +26,8 @@ public class RestTable {
 
 	private long id; 
 	
+	private boolean active;
+	
 	private Map<Long, Customer> customers = new HashMap<Long, Customer>();
 	
 	private Restaurant restaurant;
@@ -37,8 +39,9 @@ public class RestTable {
 		
 	}
 	
-	public RestTable(Restaurant restaurant) {
-
+	public RestTable(boolean active, Restaurant restaurant) {
+		
+		setActive(active);
 		setRestaurant(restaurant);
 	}
 
@@ -55,6 +58,16 @@ public class RestTable {
 		this.id = id;
 	}
 
+	
+	@Basic(optional = false)
+	@Column(nullable = false)
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
 	@ManyToMany(mappedBy = "tables")
 	@MapKey(name="id")
@@ -77,6 +90,11 @@ public class RestTable {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "RestTable [id=" + id + ", active=" + active + "]";
+	}
+
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@MapKey(name = "id")
 	@JoinTable(name = "Menu_Table", joinColumns = { @JoinColumn(name = "menu_id") }, inverseJoinColumns = {
@@ -90,14 +108,10 @@ public class RestTable {
 	}
 
 	@Override
-	public String toString() {
-		return "Table [id=" + id + ", customers=" + customers + ", restaurant=" + restaurant + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (active ? 1231 : 1237);
 		result = prime * result + ((customers == null) ? 0 : customers.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((menuElements == null) ? 0 : menuElements.hashCode());
@@ -114,6 +128,8 @@ public class RestTable {
 		if (getClass() != obj.getClass())
 			return false;
 		RestTable other = (RestTable) obj;
+		if (active != other.active)
+			return false;
 		if (customers == null) {
 			if (other.customers != null)
 				return false;
@@ -133,6 +149,10 @@ public class RestTable {
 			return false;
 		return true;
 	}
+
+	
+
+
 
 	
 

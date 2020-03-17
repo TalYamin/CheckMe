@@ -24,19 +24,20 @@ public class Owner {
 	private String lastName;
 	private String phone;
 	private String email;
-	private Set<Restaurant>restaurants = new HashSet<Restaurant>();
-	
-	
+	private String password;
+	private Set<Restaurant> restaurants = new HashSet<Restaurant>();
+
 	public Owner() {
 
 	}
 
-	public Owner(String firstName, String lastName, String phone, String email) {
+	public Owner(String firstName, String lastName, String phone, String email, String password) {
 
 		setFirstName(firstName);
 		setLastName(lastName);
 		setPhone(phone);
 		setEmail(email);
+		setPassword(password);
 	}
 
 	@Id
@@ -91,6 +92,16 @@ public class Owner {
 		this.email = email;
 	}
 
+	@Basic(optional = false)
+	@Column(nullable = false)
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
 	public Set<Restaurant> getRestaurants() {
 		return restaurants;
@@ -99,11 +110,11 @@ public class Owner {
 	public void setRestaurants(Set<Restaurant> restaurants) {
 		this.restaurants = restaurants;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Owner [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + "]";
+				+ ", email=" + email + ", password=" + password + "]";
 	}
 
 	@Override
@@ -114,6 +125,7 @@ public class Owner {
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((restaurants == null) ? 0 : restaurants.hashCode());
 		return result;
@@ -145,6 +157,11 @@ public class Owner {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
 		if (phone == null) {
 			if (other.phone != null)
 				return false;
@@ -157,11 +174,5 @@ public class Owner {
 			return false;
 		return true;
 	}
-
-	
-
-	
-
-	
 
 }

@@ -26,6 +26,7 @@ public class Customer {
 	private String lastName;
 	private String phone;
 	private String email;
+	private String password;
 	private Map<Long, RestTable> tables = new HashMap<>();
 	private Map<Long, MenuElement> menuElements = new HashMap<>();
 
@@ -33,12 +34,13 @@ public class Customer {
 
 	}
 
-	public Customer(String firstName, String lastName, String phone, String email) {
+	public Customer(String firstName, String lastName, String phone, String email, String password) {
 
 		setFirstName(firstName);
 		setLastName(lastName);
 		setPhone(phone);
 		setEmail(email);
+		setPassword(password);
 	}
 
 	@Id
@@ -93,6 +95,16 @@ public class Customer {
 		this.email = email;
 	}
 
+	@Basic(optional = false)
+	@Column(nullable = false)
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@MapKey(name = "id")
 	@JoinTable(name = "Customer_Table", joinColumns = { @JoinColumn(name = "customer_id") }, inverseJoinColumns = {
@@ -104,7 +116,7 @@ public class Customer {
 	public void setTables(Map<Long, RestTable> tables) {
 		this.tables = tables;
 	}
-	
+
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@MapKey(name = "id")
 	@JoinTable(name = "Customer_Menu", joinColumns = { @JoinColumn(name = "customer_id") }, inverseJoinColumns = {
@@ -120,7 +132,7 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + "]";
+				+ ", email=" + email + ", password=" + password + "]";
 	}
 
 	@Override
@@ -132,6 +144,7 @@ public class Customer {
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((menuElements == null) ? 0 : menuElements.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((tables == null) ? 0 : tables.hashCode());
 		return result;
@@ -168,6 +181,11 @@ public class Customer {
 				return false;
 		} else if (!menuElements.equals(other.menuElements))
 			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
 		if (phone == null) {
 			if (other.phone != null)
 				return false;
@@ -181,7 +199,4 @@ public class Customer {
 		return true;
 	}
 
-	
-
-	
 }

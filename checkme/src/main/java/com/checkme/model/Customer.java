@@ -22,22 +22,23 @@ import org.springframework.stereotype.Component;
 public class Customer {
 
 	private long id;
-	private String firstName;
-	private String lastName;
+	private String name;
 	private String phone;
 	private String email;
+	private String password;
 	private Map<Long, RestTable> tables = new HashMap<>();
+	private Map<Long, MenuElement> menuElements = new HashMap<>();
 
 	public Customer() {
 
 	}
 
-	public Customer(String firstName, String lastName, String phone, String email) {
+	public Customer(String name, String phone, String email, String password) {
 
-		setFirstName(firstName);
-		setLastName(lastName);
+		setName(name);
 		setPhone(phone);
 		setEmail(email);
+		setPassword(password);
 	}
 
 	@Id
@@ -54,23 +55,14 @@ public class Customer {
 
 	@Basic(optional = false)
 	@Column(nullable = false)
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	@Basic(optional = false)
-	@Column(nullable = false)
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 
 	@Basic(optional = false)
 	@Column(nullable = false)
@@ -78,6 +70,7 @@ public class Customer {
 		return phone;
 	}
 
+	
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
@@ -92,6 +85,16 @@ public class Customer {
 		this.email = email;
 	}
 
+	@Basic(optional = false)
+	@Column(nullable = false)
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@MapKey(name = "id")
 	@JoinTable(name = "Customer_Table", joinColumns = { @JoinColumn(name = "customer_id") }, inverseJoinColumns = {
@@ -104,10 +107,22 @@ public class Customer {
 		this.tables = tables;
 	}
 
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@MapKey(name = "id")
+	@JoinTable(name = "Customer_Menu", joinColumns = { @JoinColumn(name = "customer_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "menu_id") })
+	public Map<Long, MenuElement> getMenuElements() {
+		return menuElements;
+	}
+
+	public void setMenuElements(Map<Long, MenuElement> menuElements) {
+		this.menuElements = menuElements;
+	}
+
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + "]";
+		return "Customer [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", password="
+				+ password + "]";
 	}
 
 	@Override
@@ -115,9 +130,10 @@ public class Customer {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((menuElements == null) ? 0 : menuElements.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((tables == null) ? 0 : tables.hashCode());
 		return result;
@@ -137,17 +153,22 @@ public class Customer {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
 		if (id != other.id)
 			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
+		if (menuElements == null) {
+			if (other.menuElements != null)
 				return false;
-		} else if (!lastName.equals(other.lastName))
+		} else if (!menuElements.equals(other.menuElements))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
 			return false;
 		if (phone == null) {
 			if (other.phone != null)
@@ -163,4 +184,6 @@ public class Customer {
 	}
 
 	
+	
+
 }

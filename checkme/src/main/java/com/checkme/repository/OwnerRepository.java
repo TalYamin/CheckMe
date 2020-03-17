@@ -8,4 +8,10 @@ import com.checkme.model.Owner;
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
+	public Owner findByPhone (String phone);
+	
+	public boolean existsByPhone(String phone);
+	
+	
+	
 }

@@ -20,23 +20,22 @@ import lombok.NonNull;
 public class Owner {
 
 	private long id;
-	private String firstName;
-	private String lastName;
+	private String name;
 	private String phone;
 	private String email;
-	private Set<Restaurant>restaurants = new HashSet<Restaurant>();
-	
-	
+	private String password;
+	private Set<Restaurant> restaurants = new HashSet<Restaurant>();
+
 	public Owner() {
 
 	}
 
-	public Owner(String firstName, String lastName, String phone, String email) {
+	public Owner(String name, String phone, String email, String password) {
 
-		setFirstName(firstName);
-		setLastName(lastName);
+		setName(name);
 		setPhone(phone);
 		setEmail(email);
+		setPassword(password);
 	}
 
 	@Id
@@ -53,22 +52,12 @@ public class Owner {
 
 	@Basic(optional = false)
 	@Column(nullable = false)
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	@Basic(optional = false)
-	@Column(nullable = false)
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Basic(optional = false)
@@ -76,6 +65,8 @@ public class Owner {
 	public String getPhone() {
 		return phone;
 	}
+
+	
 
 	public void setPhone(String phone) {
 		this.phone = phone;
@@ -91,6 +82,16 @@ public class Owner {
 		this.email = email;
 	}
 
+	@Basic(optional = false)
+	@Column(nullable = false)
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
 	public Set<Restaurant> getRestaurants() {
 		return restaurants;
@@ -99,11 +100,11 @@ public class Owner {
 	public void setRestaurants(Set<Restaurant> restaurants) {
 		this.restaurants = restaurants;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Owner [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone
-				+ ", email=" + email + "]";
+		return "Owner [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", password=" + password
+				+ "]";
 	}
 
 	@Override
@@ -111,9 +112,9 @@ public class Owner {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((restaurants == null) ? 0 : restaurants.hashCode());
 		return result;
@@ -133,17 +134,17 @@ public class Owner {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
 		if (id != other.id)
 			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!lastName.equals(other.lastName))
+		} else if (!name.equals(other.name))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
 			return false;
 		if (phone == null) {
 			if (other.phone != null)
@@ -157,8 +158,6 @@ public class Owner {
 			return false;
 		return true;
 	}
-
-	
 
 	
 

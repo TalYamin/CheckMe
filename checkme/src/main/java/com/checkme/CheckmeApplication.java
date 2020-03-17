@@ -22,7 +22,7 @@ public class CheckmeApplication {
 		Owner owner = new Owner("Tal", "Yamin", "0522222222222", "talcheck@gmail.com", "TalYam");
 		ownerRepository.save(owner);
 		RestaurantRepository resRepository = applicationContext.getBean(RestaurantRepository.class);
-		resRepository.save(new Restaurant("Hamesila", "09952745", "hamesila@office.com", owner));
+		resRepository.save(new Restaurant("Hamesila", "09952745", "hamesila@office.com", true, owner));
 		
 	} 
 

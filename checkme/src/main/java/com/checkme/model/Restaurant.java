@@ -24,6 +24,7 @@ public class Restaurant {
 	private String name;
 	private String phone;
 	private String email;
+	private boolean active;
 	private Owner owner;
 	private Set<RestTable> tables = new HashSet<RestTable>();
 	private Set<MenuElement>menuElements = new HashSet<MenuElement>();
@@ -32,10 +33,11 @@ public class Restaurant {
 
 	}
 
-	public Restaurant(String name, String phone, String email, Owner owner) {
+	public Restaurant(String name, String phone, String email, boolean active, Owner owner) {
 		setName(name);
 		setPhone(phone);
 		setEmail(email);
+		setActive(active);
 		setOwner(owner);
 	}
 
@@ -81,6 +83,17 @@ public class Restaurant {
 		this.email = email;
 	}
 	
+	
+	
+	@Basic(optional = false)
+	@Column(nullable = false)
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
 	@ManyToOne
 	public Owner getOwner() {
@@ -111,13 +124,15 @@ public class Restaurant {
 
 	@Override
 	public String toString() {
-		return "Restaurant [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + "]";
+		return "Restaurant [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", active="
+				+ active + ", owner=" + owner + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (active ? 1231 : 1237);
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((menuElements == null) ? 0 : menuElements.hashCode());
@@ -137,6 +152,8 @@ public class Restaurant {
 		if (getClass() != obj.getClass())
 			return false;
 		Restaurant other = (Restaurant) obj;
+		if (active != other.active)
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -171,6 +188,9 @@ public class Restaurant {
 			return false;
 		return true;
 	}
+
+
+	
 
 	
 	

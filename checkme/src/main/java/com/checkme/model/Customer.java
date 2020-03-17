@@ -27,6 +27,7 @@ public class Customer {
 	private String phone;
 	private String email;
 	private Map<Long, RestTable> tables = new HashMap<>();
+	private Map<Long, MenuElement> menuElements = new HashMap<>();
 
 	public Customer() {
 
@@ -103,6 +104,18 @@ public class Customer {
 	public void setTables(Map<Long, RestTable> tables) {
 		this.tables = tables;
 	}
+	
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@MapKey(name = "id")
+	@JoinTable(name = "Customer_Menu", joinColumns = { @JoinColumn(name = "customer_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "menu_id") })
+	public Map<Long, MenuElement> getMenuElements() {
+		return menuElements;
+	}
+
+	public void setMenuElements(Map<Long, MenuElement> menuElements) {
+		this.menuElements = menuElements;
+	}
 
 	@Override
 	public String toString() {
@@ -118,6 +131,7 @@ public class Customer {
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((menuElements == null) ? 0 : menuElements.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((tables == null) ? 0 : tables.hashCode());
 		return result;
@@ -149,6 +163,11 @@ public class Customer {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
+		if (menuElements == null) {
+			if (other.menuElements != null)
+				return false;
+		} else if (!menuElements.equals(other.menuElements))
+			return false;
 		if (phone == null) {
 			if (other.phone != null)
 				return false;
@@ -161,6 +180,8 @@ public class Customer {
 			return false;
 		return true;
 	}
+
+	
 
 	
 }

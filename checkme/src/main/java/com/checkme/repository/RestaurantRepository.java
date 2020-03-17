@@ -6,6 +6,10 @@ import org.springframework.stereotype.Repository;
 import com.checkme.model.Restaurant;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, Long>{
+public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+
+	public Restaurant findByPhone(String phone);
+
+	public boolean existByPhone(String phone);
 
 }

@@ -1,13 +1,19 @@
 package com.checkme.model;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
@@ -20,18 +26,19 @@ public class RestTable {
 
 	private long id; 
 	
-	private Set<Customer> customers = new HashSet<Customer>();
+	private Map<Long, Customer> customers = new HashMap<Long, Customer>();
 	
 	private Restaurant restaurant;
+	
+	private Map<Long, MenuElement> menuElements = new HashMap<Long, MenuElement>();
 	
 	
 	public RestTable() {
 		
 	}
 	
-	public RestTable(Set<Customer> customers,Restaurant restaurant) {
+	public RestTable(Restaurant restaurant) {
 
-		setCustomers(customers);
 		setRestaurant(restaurant);
 	}
 
@@ -51,11 +58,11 @@ public class RestTable {
 
 	@ManyToMany(mappedBy = "tables")
 	@MapKey(name="id")
-	public Set<Customer> getCustomers() {
+	public Map<Long, Customer> getCustomers() {
 		return customers;
 	}
 
-	public void setCustomers(Set<Customer> customers) {
+	public void setCustomers(Map<Long, Customer> customers) {
 		this.customers = customers;
 	}
 
@@ -64,8 +71,22 @@ public class RestTable {
 		return restaurant;
 	}
 
+
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
+	}
+	
+	
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@MapKey(name = "id")
+	@JoinTable(name = "Menu_Table", joinColumns = { @JoinColumn(name = "menu_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "table_id") })
+	public Map<Long, MenuElement> getMenuElements() {
+		return menuElements;
+	}
+
+	public void setMenuElements(Map<Long, MenuElement> menuElements) {
+		this.menuElements = menuElements;
 	}
 
 	@Override
@@ -79,6 +100,7 @@ public class RestTable {
 		int result = 1;
 		result = prime * result + ((customers == null) ? 0 : customers.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((menuElements == null) ? 0 : menuElements.hashCode());
 		result = prime * result + ((restaurant == null) ? 0 : restaurant.hashCode());
 		return result;
 	}
@@ -99,6 +121,11 @@ public class RestTable {
 			return false;
 		if (id != other.id)
 			return false;
+		if (menuElements == null) {
+			if (other.menuElements != null)
+				return false;
+		} else if (!menuElements.equals(other.menuElements))
+			return false;
 		if (restaurant == null) {
 			if (other.restaurant != null)
 				return false;
@@ -106,6 +133,8 @@ public class RestTable {
 			return false;
 		return true;
 	}
+
+	
 
 	
 

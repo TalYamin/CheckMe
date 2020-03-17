@@ -15,7 +15,7 @@ public interface MenuElementRepository extends JpaRepository<MenuElement, Long> 
 	
 	public Set<MenuElement> findAllByMenuTypeAndRestaurantId(MenuType menuType, long restaurantId);
 	
-	public boolean existByNameAndRestaurantId(String name, long restaurantId);
+	public boolean existsByNameAndRestaurantId(String name, long restaurantId);
 	
 	
 }

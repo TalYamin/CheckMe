@@ -10,6 +10,5 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
 	public Restaurant findByPhone(String phone);
 
-	public boolean existByPhone(String phone);
-
+	public boolean existsByPhone(String phone);
 }

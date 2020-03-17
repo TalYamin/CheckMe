@@ -35,7 +35,7 @@ public class AdminServiceImpl implements AdminService {
 			ownerRepository.save(owner);
 			System.out.println("Admin added new owner: " + owner.toString());
 			statusInfo.setSuccess(true);
-			statusInfo.setMessage("success, Admin added new owner: " + owner.getFirstName() + " " + owner.getLastName());
+			statusInfo.setMessage("success, Admin added new owner: " + owner.getName());
 			return statusInfo;
 			
 		} catch (Exception e) {
@@ -56,6 +56,7 @@ public class AdminServiceImpl implements AdminService {
 			if (!ownerRepository.existsByPhone(phone)) {
 				throw new Exception("Owner does not exist in system");
 			}
+			
 			
 			
 			

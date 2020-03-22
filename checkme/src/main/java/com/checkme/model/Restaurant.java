@@ -106,7 +106,7 @@ public class Restaurant {
 		this.owner = owner;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	public List<RestTable> getTables() {
 		return tables;
 	}
@@ -115,7 +115,7 @@ public class Restaurant {
 		this.tables = tables;
 	}
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	public List<MenuElement> getMenuElements() {
 		return menuElements;
 	}

@@ -19,15 +19,15 @@ public interface AdminService {
 	
 	public Owner getOwner(String phone) throws Exception;
 	
-	public StatusInfo addCustomer(Customer customer) throws Exception;
-
-	public StatusInfo removeCustomer(String phone) throws Exception;
-
-	public StatusInfo updateCustomer(String phone, String newFirstName, String newLastName, String newPhone,
-			String newEmail, String newPassword) throws Exception;
-
-	public Set<Customer> getAllCustomers() throws Exception;
-	
-	public Owner getCustomer(String phone) throws Exception;
+//	public StatusInfo addCustomer(Customer customer) throws Exception;
+//
+//	public StatusInfo removeCustomer(String phone) throws Exception;
+//
+//	public StatusInfo updateCustomer(String phone, String newFirstName, String newLastName, String newPhone,
+//			String newEmail, String newPassword) throws Exception;
+//
+//	public Set<Customer> getAllCustomers() throws Exception;
+//	
+//	public Owner getCustomer(String phone) throws Exception;
 	
 }

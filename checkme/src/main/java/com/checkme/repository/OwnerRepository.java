@@ -14,5 +14,6 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 	
 	public Owner findByPhoneAndPassword(String phone, String password);
 	
+	public void deleteByPhone(String phone);
 	
 }

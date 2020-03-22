@@ -1,6 +1,7 @@
 package com.checkme.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -13,8 +14,6 @@ import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
-import lombok.NonNull;
-
 @Component
 @Entity
 public class Owner {
@@ -24,7 +23,7 @@ public class Owner {
 	private String phone;
 	private String email;
 	private String password;
-	private Set<Restaurant> restaurants = new HashSet<Restaurant>();
+	private List<Restaurant> restaurants = new ArrayList<Restaurant>();
 
 	public Owner() {
 
@@ -93,11 +92,11 @@ public class Owner {
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
-	public Set<Restaurant> getRestaurants() {
+	public List<Restaurant> getRestaurants() {
 		return restaurants;
 	}
 
-	public void setRestaurants(Set<Restaurant> restaurants) {
+	public void setRestaurants(List<Restaurant> restaurants) {
 		this.restaurants = restaurants;
 	}
 

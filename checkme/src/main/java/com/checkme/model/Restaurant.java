@@ -1,6 +1,8 @@
 package com.checkme.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -26,8 +28,8 @@ public class Restaurant {
 	private String email;
 	private boolean active;
 	private Owner owner;
-	private Set<RestTable> tables = new HashSet<RestTable>();
-	private Set<MenuElement>menuElements = new HashSet<MenuElement>();
+	private List<RestTable> tables = new ArrayList<RestTable>();
+	private List<MenuElement>menuElements = new ArrayList<MenuElement>();
 
 	public Restaurant() {
 
@@ -105,20 +107,20 @@ public class Restaurant {
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
-	public Set<RestTable> getTables() {
+	public List<RestTable> getTables() {
 		return tables;
 	}
 
-	public void setTables(Set<RestTable> tables) {
+	public void setTables(List<RestTable> tables) {
 		this.tables = tables;
 	}
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
-	public Set<MenuElement> getMenuElements() {
+	public List<MenuElement> getMenuElements() {
 		return menuElements;
 	}
 
-	public void setMenuElements(Set<MenuElement> menuElements) {
+	public void setMenuElements(List<MenuElement> menuElements) {
 		this.menuElements = menuElements;
 	}
 

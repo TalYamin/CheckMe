@@ -25,19 +25,44 @@ public class CheckmeApplication {
 		ConfigurableApplicationContext applicationContext = SpringApplication.run(CheckmeApplication.class,
 				args);
 		
+		//Repo Test
 		OwnerRepository ownerRepository = applicationContext.getBean(OwnerRepository.class);
-		Owner owner = new Owner("Tal", "0522222222222", "talcheck@gmail.com", "TalYam");
+		Owner owner = new Owner("Tal", "0522222222", "talcheck@gmail.com", "TalYam");
+		Owner owner2 = new Owner("Peleg", "0524000000", "pelegcheck@gmail.com", "PelegYam");
+		
+		
 		ownerRepository.save(owner);
-		RestaurantRepository resRepository = applicationContext.getBean(RestaurantRepository.class);
-		resRepository.save(new Restaurant("Hamesila", "09952745", "hamesila@office.com", true, owner));
+		ownerRepository.save(owner2);
+		
+		System.out.println("---------------------------------------------");
+		
+		Owner ownerFound = ownerRepository.findByPhone("0524000000");
+		System.out.println(ownerFound);
+		
+		System.out.println("---------------------------------------------");
+		
+		System.out.println(ownerRepository.existsByPhone("0522222222"));
+		
+		Owner ownerByPass = ownerRepository.findByPhoneAndPassword("0524000000", "PelegYam");
+		System.out.println(ownerByPass);
+		
+		
+		
+//		RestaurantRepository resRepository = applicationContext.getBean(RestaurantRepository.class);
+//		resRepository.save(new Restaurant("Hamesila", "09952745", "hamesila@office.com", true, owner));
 
-		IncomeRepository incomeRepository = applicationContext.getBean(IncomeRepository.class);
-		SequenceGeneratorService sequenceGeneratorService = applicationContext.getBean(SequenceGeneratorService.class);
-		Income income = new Income(owner.getName(), owner.getId(), owner.getPhone(), "19/3/2020", IncomeType.REST_UPDATE_MENU, 100);
+		
+		//Mongo test
+//		IncomeRepository incomeRepository = applicationContext.getBean(IncomeRepository.class);
+//		SequenceGeneratorService sequenceGeneratorService = applicationContext.getBean(SequenceGeneratorService.class);
+//		Income income = new Income(owner.getName(), owner.getId(), owner.getPhone(), "19/3/2020", IncomeType.REST_UPDATE_MENU, 100);
 		//income.setIncomeId(sequenceGeneratorService.generateSequence(income.SEQUENCE_NAME));;
-		incomeRepository.save(income);
+//		incomeRepository.save(income);
 //		System.out.println(incomeRepository.findAll());
 	
+		
+		
+		
 
 	} 
 

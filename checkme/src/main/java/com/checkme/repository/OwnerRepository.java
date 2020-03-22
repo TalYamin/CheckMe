@@ -12,6 +12,7 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 	
 	public boolean existsByPhone(String phone);
 	
+	public Owner findByPhoneAndPassword(String phone, String password);
 	
 	
 }

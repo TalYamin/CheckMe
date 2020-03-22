@@ -1,5 +1,7 @@
 package com.checkme.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +13,12 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 	public Restaurant findByPhone(String phone);
 
 	public boolean existsByPhone(String phone);
+	
+	public List<Restaurant> findAllByActiveTrue();
+	
+	public List<Restaurant> findAllByActiveFalse();
+	
+	public List<Restaurant> findAllByOwnerIdAndActive(long ownerId, boolean active);
+
+	
 }

@@ -1,8 +1,7 @@
 package com.checkme.service;
 
-import java.util.Set;
+import java.util.List;
 
-import com.checkme.model.Customer;
 import com.checkme.model.Owner;
 import com.checkme.utils.StatusInfo;;
 
@@ -12,10 +11,10 @@ public interface AdminService {
 
 	public StatusInfo removeOwner(String phone) throws Exception;
 
-	public StatusInfo updateOwner(String phone, String newFirstName, String newLastName, String newPhone,
+	public StatusInfo updateOwner(String phone, String newName, String newPhone,
 			String newEmail, String newPassword) throws Exception;
 
-	public Set<Owner> getAllOwners() throws Exception;
+	public List<Owner> getAllOwners() throws Exception;
 	
 	public Owner getOwner(String phone) throws Exception;
 	

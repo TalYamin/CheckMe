@@ -31,12 +31,16 @@ public class CheckmeApplication {
 			// Repo Test
 			// OwnerRepository ownerRepository =
 			// applicationContext.getBean(OwnerRepository.class);
-			Owner owner = new Owner("Tal", "0522222222", "talcheck@gmail.com", "TalYam");
+//			Owner owner = new Owner("Tal", "0522222222", "talcheck@gmail.com", "TalYam");
 			Owner owner2 = new Owner("Peleg", "0522222222", "pelegcheck@gmail.com", "PelegYam");
 
 			AdminService adminService = applicationContext.getBean(AdminServiceImpl.class);
-			adminService.addOwner(owner);
-			adminService.addOwner(owner2);
+//			adminService.addOwner(owner);
+//			adminService.addOwner(owner2);
+			
+			
+			adminService.updateOwner("0522222222", "Peleg", "0522222221", "Peleg@checkpliz.com", "PelegCheck");
+			
 			
 
 //		ownerRepository.save(owner);

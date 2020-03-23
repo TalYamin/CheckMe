@@ -1,6 +1,6 @@
 package com.checkme.service;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.checkme.exception.ClientNotFoundException;
+import com.checkme.exception.NoDetailsFoundException;
 import com.checkme.exception.PhoneDuplicationException;
+import com.checkme.model.Admin;
 import com.checkme.model.Owner;
 import com.checkme.repository.OwnerRepository;
 import com.checkme.utils.StatusInfo;
@@ -30,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
 
 			if (ownerRepository.existsByPhone(owner.getPhone())) {
 				throw new PhoneDuplicationException("Admin failed to add Owner - phone number already in use: ",
-						owner.getPhone());
+						Admin.getId(), owner.getId(), owner.getPhone());
 			}
 
 			ownerRepository.save(owner);
@@ -59,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
 		try {
 
 			if (!ownerRepository.existsByPhone(phone)) {
-				throw new ClientNotFoundException("Owner does not exist in system", phone);
+				throw new ClientNotFoundException("Owner does not exist in system", Admin.getId(), phone);
 			}
 
 			ownerRepository.deleteByPhone(phone);
@@ -81,21 +83,88 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public StatusInfo updateOwner(String phone, String newFirstName, String newLastName, String newPhone,
-			String newEmail, String newPassword) throws Exception {
+	public StatusInfo updateOwner(String phone, String newName, String newPhone, String newEmail, String newPassword)
+			throws Exception {
 
-		return null;
+		try {
+
+			if (!ownerRepository.existsByPhone(phone)) {
+				throw new ClientNotFoundException("Owner does not exist in system", Admin.getId(), phone);
+			}
+
+			Owner ownerToUpdate = ownerRepository.findByPhone(phone);
+
+			if (ownerRepository.existsByPhone(newPhone)) {
+				throw new PhoneDuplicationException("Admin failed to update Owner, the newPhone already in use: ",
+						Admin.getId(), ownerToUpdate.getId(), newPhone);
+			}
+
+			ownerToUpdate.setName(newName);
+			ownerToUpdate.setPhone(newPhone);
+			ownerToUpdate.setEmail(newEmail);
+			ownerToUpdate.setPassword(newPassword);
+			ownerRepository.save(ownerToUpdate);
+			statusInfo.setSuccess(true);
+			statusInfo.setMessage("success, Admin updated owner successfully. ownerPhone: " + phone);
+			System.out.println("Admin updated owner successfully. ownerPhone: " + phone);
+			return statusInfo;
+
+		} catch (ClientNotFoundException e) {
+			System.err.println(e.getMessage());
+			statusInfo.setSuccess(false);
+			statusInfo.setMessage(e.getMessage());
+		} catch (PhoneDuplicationException e) {
+			System.err.println(e.getMessage());
+			statusInfo.setSuccess(false);
+			statusInfo.setMessage(e.getMessage());
+		} catch (Exception e) {
+			throw new Exception("Admin failed to update owner. ownerPhone: " + phone);
+		}
+
+		return statusInfo;
 	}
 
 	@Override
-	public Set<Owner> getAllOwners() throws Exception {
-		// TODO Auto-generated method stub
+	public List<Owner> getAllOwners() throws Exception {
+
+		try {
+
+			List<Owner> owners = ownerRepository.findAll();
+
+			if (owners.isEmpty()) {
+				throw new NoDetailsFoundException("Admin failed to get all owners - no details found", Admin.getId(),
+						ClientType.ADMIN);
+			}
+
+			return owners;
+
+		} catch (NoDetailsFoundException e) {
+			System.err.println(e.getMessage());
+		} catch (Exception e) {
+			throw new Exception("Admin failed to get all owners");
+		}
+
 		return null;
 	}
 
 	@Override
 	public Owner getOwner(String phone) throws Exception {
-		// TODO Auto-generated method stub
+
+		try {
+
+			if (!ownerRepository.existsByPhone(phone)) {
+				throw new ClientNotFoundException("ownerPhone does not exist in system", Admin.getId(), phone);
+			}
+
+			Owner owner = ownerRepository.findByPhone(phone);
+			return owner;
+
+		} catch (ClientNotFoundException e) {
+			System.err.println(e.getMessage());
+		} catch (Exception e) {
+			throw new Exception("Admin failed to get an owner. ownerPhone: " + phone);
+		}
+
 		return null;
 	}
 

@@ -28,19 +28,21 @@ public class Restaurant {
 	private String phone;
 	private String email;
 	private boolean active;
+	private String menuLink;
 	private Owner owner;
 	private List<RestTable> tables = new ArrayList<RestTable>();
-	private List<MenuElement>menuElements = new ArrayList<MenuElement>();
+	private List<MenuElement> menuElements = new ArrayList<MenuElement>();
 
 	public Restaurant() {
 
 	}
 
-	public Restaurant(String name, String phone, String email, boolean active, Owner owner) {
+	public Restaurant(String name, String phone, String email, boolean active, String menuLink, Owner owner) {
 		setName(name);
 		setPhone(phone);
 		setEmail(email);
 		setActive(active);
+		setMenuLink(menuLink);
 		setOwner(owner);
 	}
 
@@ -85,9 +87,7 @@ public class Restaurant {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
-	
+
 	@Basic(optional = false)
 	@Column(nullable = false)
 	public boolean isActive() {
@@ -96,6 +96,16 @@ public class Restaurant {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	@Basic(optional = false)
+	@Column(nullable = false)
+	public String getMenuLink() {
+		return menuLink;
+	}
+
+	public void setMenuLink(String menuLink) {
+		this.menuLink = menuLink;
 	}
 
 	@ManyToOne
@@ -115,7 +125,7 @@ public class Restaurant {
 	public void setTables(List<RestTable> tables) {
 		this.tables = tables;
 	}
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE)
 	public List<MenuElement> getMenuElements() {
 		return menuElements;
@@ -128,7 +138,7 @@ public class Restaurant {
 	@Override
 	public String toString() {
 		return "Restaurant [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", active="
-				+ active + ", owner=" + owner + "]";
+				+ active + ", menuLink=" + menuLink + ", owner=" + owner + "]";
 	}
 
 	@Override
@@ -139,6 +149,7 @@ public class Restaurant {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((menuElements == null) ? 0 : menuElements.hashCode());
+		result = prime * result + ((menuLink == null) ? 0 : menuLink.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
@@ -169,6 +180,11 @@ public class Restaurant {
 				return false;
 		} else if (!menuElements.equals(other.menuElements))
 			return false;
+		if (menuLink == null) {
+			if (other.menuLink != null)
+				return false;
+		} else if (!menuLink.equals(other.menuLink))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -191,16 +207,5 @@ public class Restaurant {
 			return false;
 		return true;
 	}
-
-
-	
-
-	
-	
-	
-
-
-
-	
 
 }

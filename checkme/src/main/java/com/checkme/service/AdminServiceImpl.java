@@ -7,7 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.checkme.exception.ClientNotFoundException;
+import com.checkme.exception.ModelNotFoundException;
 import com.checkme.exception.NoDetailsFoundException;
 import com.checkme.exception.PhoneDuplicationException;
 import com.checkme.model.Admin;
@@ -61,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
 		try {
 
 			if (!ownerRepository.existsByPhone(phone)) {
-				throw new ClientNotFoundException("Owner does not exist in system", Admin.getId(), phone);
+				throw new ModelNotFoundException("Owner does not exist in system", Admin.getId(), phone);
 			}
 
 			ownerRepository.deleteByPhone(phone);
@@ -70,7 +70,7 @@ public class AdminServiceImpl implements AdminService {
 			System.out.println("Admin removed owner successfully. ownerPhone: " + phone);
 			return statusInfo;
 
-		} catch (ClientNotFoundException e) {
+		} catch (ModelNotFoundException e) {
 			System.err.println(e.getMessage());
 			statusInfo.setSuccess(false);
 			statusInfo.setMessage(e.getMessage());
@@ -89,7 +89,7 @@ public class AdminServiceImpl implements AdminService {
 		try {
 
 			if (!ownerRepository.existsByPhone(phone)) {
-				throw new ClientNotFoundException("Owner does not exist in system", Admin.getId(), phone);
+				throw new ModelNotFoundException("Owner does not exist in system", Admin.getId(), phone);
 			}
 
 			Owner ownerToUpdate = ownerRepository.findByPhone(phone);
@@ -109,7 +109,7 @@ public class AdminServiceImpl implements AdminService {
 			System.out.println("Admin updated owner successfully. ownerPhone: " + phone);
 			return statusInfo;
 
-		} catch (ClientNotFoundException e) {
+		} catch (ModelNotFoundException e) {
 			System.err.println(e.getMessage());
 			statusInfo.setSuccess(false);
 			statusInfo.setMessage(e.getMessage());
@@ -153,13 +153,13 @@ public class AdminServiceImpl implements AdminService {
 		try {
 
 			if (!ownerRepository.existsByPhone(phone)) {
-				throw new ClientNotFoundException("ownerPhone does not exist in system", Admin.getId(), phone);
+				throw new ModelNotFoundException("ownerPhone does not exist in system", Admin.getId(), phone);
 			}
 
 			Owner owner = ownerRepository.findByPhone(phone);
 			return owner;
 
-		} catch (ClientNotFoundException e) {
+		} catch (ModelNotFoundException e) {
 			System.err.println(e.getMessage());
 		} catch (Exception e) {
 			throw new Exception("Admin failed to get an owner. ownerPhone: " + phone);

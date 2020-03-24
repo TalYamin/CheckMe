@@ -14,6 +14,12 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
 	public boolean existsByPhone(String phone);
 	
+	public boolean existsByName(String name);
+	
+	public void deleteByPhone(String phone);
+	
+	public List<Restaurant> findAllByOwnerId(long ownerId);
+	
 	public List<Restaurant> findAllByActiveTrue();
 	
 	public List<Restaurant> findAllByActiveFalse();

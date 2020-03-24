@@ -24,27 +24,27 @@ public interface OwnerService {
 	
 	public Restaurant getRestaurant(String phone) throws Exception; 
 	
-	public StatusInfo addMenuElement(MenuElement menuElement) throws Exception;
+	public StatusInfo addMenuElement(long restaurantId, MenuElement menuElement) throws Exception;
 	
-	public StatusInfo removeMenuElement(String name) throws Exception;
+	public StatusInfo removeMenuElement(long restaurantId, String name) throws Exception;
 	
-	public StatusInfo updateMenuElement(String name, String newName, MenuType newMenuType, double newPrice, LocalDate newUpdateDate) throws Exception;
+	public StatusInfo updateMenuElement(long restaurantId, String name, String newName, MenuType newMenuType, double newPrice, LocalDate newUpdateDate) throws Exception;
 	
-	public StatusInfo deactivateMenuElement(String name) throws Exception;
+	public StatusInfo deactivateMenuElement(long restaurantId, String name) throws Exception;
 	
-	public StatusInfo deactivateAllMenuElements() throws Exception;
+	public StatusInfo deactivateAllMenuElements(long restaurantId) throws Exception;
 
-	public List<MenuElement> getAllMenuElements() throws Exception;
+	public List<MenuElement> getAllMenuElements(long restaurantId) throws Exception;
 	
-	public MenuElement getMenuElement(String name) throws Exception;
+	public MenuElement getMenuElement(long restaurantId, String name) throws Exception;
 	
-	public List<MenuElement> getAllMenuElementsByType(MenuType menuType) throws Exception;
+	public List<MenuElement> getAllMenuElementsByType(long restaurantId, MenuType menuType) throws Exception;
 
-	public List<MenuElement> getAllMenuElementsByPrice(double priceTop) throws Exception;
+	public List<MenuElement> getAllMenuElementsByPrice(long restaurantId, double priceTop) throws Exception;
 
-	public List<MenuElement> getAllMenuElementsByDate(String untilDate) throws Exception;
+	public List<MenuElement> getAllMenuElementsByDate(long restaurantId, String untilDate) throws Exception;
 
-	public List<MenuElement> getAllMenuElementsByActive(boolean active) throws Exception;
+	public List<MenuElement> getAllMenuElementsByActive(long restaurantId, boolean active) throws Exception;
 	
 	
 	

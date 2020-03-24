@@ -108,7 +108,7 @@ public class Restaurant {
 		this.menuLink = menuLink;
 	}
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	public Owner getOwner() {
 		return owner;
 	}

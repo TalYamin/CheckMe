@@ -27,6 +27,8 @@ public class CheckmeApplication {
 		ConfigurableApplicationContext applicationContext = SpringApplication.run(CheckmeApplication.class, args);
 
 		try {
+			
+			//check
 
 			// Repo Test
 			// OwnerRepository ownerRepository =
